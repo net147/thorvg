@@ -162,7 +162,7 @@ struct GlRenderer : RenderMethod
     bool clear() override;
     bool intersectsShape(RenderData data, const RenderRegion& region) override;
     bool intersectsImage(RenderData data, const RenderRegion& region) override;
-    bool target(void* context, int32_t id, uint32_t w, uint32_t h, ColorSpace cs);
+    bool target(void* display, void* surface, void* context, int32_t id, uint32_t w, uint32_t h, ColorSpace cs);
 
     //composition
     RenderCompositor* target(const RenderRegion& region, ColorSpace cs, CompositionFlag flags) override;
@@ -208,6 +208,8 @@ private:
     void currentContext();
 
     void* mContext = nullptr;
+    void* mDisplay = nullptr;   // EGLDisplay for EGL; unused for other app-managed contexts.
+    void* mSurface = nullptr;   // EGLSurface for EGL, HDC for WGL; unused for other app-managed contexts.
     RenderSurface surface;
     GLint mTargetFboId = 0;
     GlStageBuffer mGpuBuffer;
